@@ -77,7 +77,7 @@ public class Orders
 				+ "<td><form method='post' action='orders.jsp'>"
 				+ "<input name='btnRemove' type='submit' value='Remove'
 				class='btn btn-danger'>"
-						+ "<input name='itemID' type='hidden' value='" + itemID
+						+ "<input name='itemID' type='hidden' value='" + productID
 						+ "'>" + "</form></td></tr>";
 				}
 				con.close();
