@@ -27,7 +27,7 @@ public class Ship {
 						return con; 
 				}
 	
-			public String insertItem(int accID, String fname, String lname, String uname, String email, String add1, String add2, String cty, String state, String zip) 
+			public String insertItem(int prodID, String fname, String lname, String uname, String email) 
 			{ 
 		
 				String output = ""; 
@@ -42,22 +42,17 @@ public class Ship {
 					{return "Error while connecting to the database for inserting."; } 
 		
 					// create a prepared statement
-					String query = " insert into shippingdetails (`accountID`,`firstName`,`lastName`,`userName`,`email`,`address1`,`address2`,`country`,`state`,`zipCode`)"
-								+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+					String query = " insert into shippingdetails (`productID`,`firstName`,`lastName`,`userName`,`email`)"
+								+ " values (?, ?, ?, ?, ?);
 		
 					PreparedStatement preparedStmt = con.prepareStatement(query); 
 					
 					// binding values
-					 preparedStmt.setInt(1, accID); 
+					 preparedStmt.setInt(1, prodID); 
 					 preparedStmt.setString(2, fname); 
 					 preparedStmt.setString(3, lname); 
 					 preparedStmt.setString(4, uname); 
 					 preparedStmt.setString(5, email);
-					 preparedStmt.setString(6, add1);
-					 preparedStmt.setString(7, add2); 
-					 preparedStmt.setString(8, cty); 
-					 preparedStmt.setString(9, state);
-					 preparedStmt.setString(10, zip); 
 		
 					 // execute the statement
 					 preparedStmt.execute(); 
@@ -89,15 +84,11 @@ public class Ship {
 						{return "Error while connecting to the database for reading."; } 
 			 
 						// Prepare the html table to be displayed
-						output = "<table border='1'><tr><th>AccountID</th><th>First Name</th>" +
+						output = "<table border='1'><tr><th>productID</th><th>First Name</th>" +
 								"<th>Last Name</th>" + 
 								"<th>User Name</th>" +
-								"<th>Email</th>" +
-								"<th>Address 1</th>" +
-								"<th>Address 2</th>" +
-								"<th>Country</th>" +
-								"<th>State</th>" +
-								"<th>Zip Code</th></tr>"; 
+								"<th>Email</th>";
+ 
 			 
 						String query = "select * from shippingdetails"; 
 						Statement stmt = con.createStatement(); 
@@ -106,28 +97,18 @@ public class Ship {
 						// iterate through the rows in the result set
 						while (rs.next()) 
 						{ 
-								String accountID = Integer.toString(rs.getInt("accountID")); 
+								String productID = Integer.toString(rs.getInt("productID")); 
 								String firstName = rs.getString("firstName"); 
 								String lastName = rs.getString("lastName");
 								String userName = rs.getString("userName");
 								String email = rs.getString("email"); 
-								String address1 = rs.getString("address1");
-								String address2 = rs.getString("address2");
-								String country = rs.getString("country");
-								String state = rs.getString("state");
-								String zipCode = rs.getString("zipCode");
 			 
 								// Add into the html table
-								output += "<tr><td>" + accountID + "</td>"; 
+								output += "<tr><td>" + productID + "</td>"; 
 								output += "<td>" + firstName + "</td>"; 
 								output += "<td>" + lastName + "</td>";
 								output += "<td>" + userName + "</td>";
 								output += "<td>" + email + "</td>";
-								output += "<td>" + address1 + "</td>";
-								output += "<td>" + address2 + "</td>";
-								output += "<td>" + country + "</td>";
-								output += "<td>" + state + "</td>";
-								output += "<td>" + zipCode + "</td></tr>"; 
 						} 
 			 
 						con.close(); 
@@ -144,7 +125,7 @@ public class Ship {
 					return output; 
 		}
 		
-			public String updateItem(String ID, String fName, String lName, String uname,  String emailadd, String add1, String add2, String cty, String ste, String zip)
+			public String updateItem(String ID, String fName, String lName, String uname,  String emailadd)
 			{ 
 				 String output = ""; 
 				 
@@ -157,7 +138,7 @@ public class Ship {
 					 	{return "Error while connecting to the database for updating."; } 
 				 
 					 	// create a prepared statement
-					 	String query = "UPDATE shippingdetails SET firstName=?,lastName=?,userName=?,email=?,address1=?,address2=?,country=?,state=?,zipCode=? WHERE accountID=?"; 
+					 	String query = "UPDATE shippingdetails SET firstName=?,lastName=?,userName=?,email=? WHERE productID=?"; 
 				 
 					 	PreparedStatement preparedStmt = con.prepareStatement(query); 
 				 
@@ -166,7 +147,6 @@ public class Ship {
 					 	preparedStmt.setString(2, lName);
 					 	preparedStmt.setString(3, uname);
 					 	preparedStmt.setString(4, emailadd);
-					 	preparedStmt.setString(7, cty);
 					 	preparedStmt.setInt(10, Integer.parseInt(ID)); 
 				 
 					 	// execute the statement
@@ -183,7 +163,7 @@ public class Ship {
 				 return output; 
 		}
 			
-			public String deleteItem(String accountID)
+			public String deleteItem(String productID)
 			{ 
 			 	String output = ""; 
 			 
@@ -196,12 +176,12 @@ public class Ship {
 			 			{return "Error while connecting to the database for deleting."; } 
 			 
 			 			// create a prepared statement
-			 			String query = "delete from shippingdetails where accountID=?"; 
+			 			String query = "delete from shippingdetails where productID=?"; 
 			 			
 			 			PreparedStatement preparedStmt = con.prepareStatement(query); 
 			 
 			 			// binding values
-			 			preparedStmt.setInt(1, Integer.parseInt(accountID)); 
+			 			preparedStmt.setInt(1, Integer.parseInt(productID)); 
 			 
 			 			// execute the statement
 			 			preparedStmt.execute(); 
