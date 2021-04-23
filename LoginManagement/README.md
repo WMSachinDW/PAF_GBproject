@@ -1,9 +1,7 @@
-# HelthCare
+#Login Management Service
 
-Login Management Service
-
-IT18009446
-Amarasekara T.N.E
+IT18008692
+Malinda Wijeysooriya
 
 # Important
 
